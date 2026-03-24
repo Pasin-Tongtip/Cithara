@@ -40,8 +40,8 @@ python manage.py runserver
 
 # Justification
 
-In the original design, the <<Enumeration>> Mood has only Sad and Happy, and the <<Enumeration>> Occasion has only Birthday, Wedding and Party.
+In the original design, the Mood class has only Sad and Happy, and the Occasion class has only Birthday, Wedding and Party.
 
-Now I add Calm and Energetic into <<Enumeration>> Mood, and I add Studying into <<Enumeration>> Occasion. 
+Now I add Calm and Energetic into the Mood class, and I add Studying into the Occasion class. 
 
-By adding more choices into the <<Enumeration>>, the song creator will have more choices and can create more meaningful song. 
+By adding more choices into those classes, the song creator will have more choices and can create more meaningful song. 
