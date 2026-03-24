@@ -36,3 +36,12 @@ python manage.py runserver
 6️⃣ go to this [link](http://127.0.0.1:8000/admin/)
 
 7️⃣ login with the username and password you set in step 4️⃣.
+
+
+# Justification
+
+In the original design, the <<Enumeration>> Mood has only Sad and Happy, and the <<Enumeration>> Occasion has only Birthday, Wedding and Party.
+
+Now I add Calm and Energetic into <<Enumeration>> Mood, and I add Studying into <<Enumeration>> Occasion. 
+
+By adding more choices into the <<Enumeration>>, the song creator will have more choices and can create more meaningful song. 
