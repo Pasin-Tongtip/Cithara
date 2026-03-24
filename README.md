@@ -13,11 +13,18 @@ git clone https://github.com/Pasin-Tongtip/Cithara.git
 ```
 cd Cithara
 ```
+3️⃣ create admin access
 
-3️⃣ run the server
+```
+python manage.py migrate
+
+python manage.py createsuperuser
+```
+
+4️⃣ run the server
 
 ```
 python manage.py runserver
 ```
 
-4️⃣ go to [Link](http://127.0.0.1:8000/admin/)
+5️⃣ go to [Link](http://127.0.0.1:8000/admin/)
