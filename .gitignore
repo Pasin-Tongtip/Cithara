@@ -1,0 +1,7 @@
+db.sqlite3
+
+mysite/__pycache__/
+
+cithara/__pycache__/
+
+cithara/migrations/__pycache__/
