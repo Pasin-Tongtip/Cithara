@@ -46,17 +46,13 @@ class User(models.Model):
 
 
 # User roles
-class SongCreator(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
+class SongCreator(User):
 
     def __str__(self):
         return f"Song creator: {self.name}"
 
 
-class Listener(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
+class Listener(User):
 
     def __str__(self):
         return f"Listener: {self.name}"
@@ -71,7 +67,6 @@ class Library(models.Model):
 
 
 class Song(models.Model):
-    # creator = models.ForeignKey(SongCreator, on_delete=models.CASCADE, related_name='songs')
     library = models.ForeignKey(Library, on_delete=models.CASCADE, related_name='songs')
     title = models.CharField(max_length=200)
     mood = models.CharField(max_length=20, choices=Mood.choices)
