@@ -19,7 +19,7 @@ git clone https://github.com/Pasin-Tongtip/Cithara.git
 ```
 cd Cithara
 ```
-4️⃣ create admin access
+4️⃣ Create admin access
 
 ```
 python manage.py migrate
@@ -27,12 +27,21 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-5️⃣ run the server
+5️⃣ Run the server
 
 ```
 python manage.py runserver
 ```
 
-6️⃣ go to this [link](http://127.0.0.1:8000/admin/)
+6️⃣ Go to this [link](http://127.0.0.1:8000/admin/)
 
-7️⃣ login with the username and password you set in step 4️⃣.
+7️⃣ Login with the username and password you set in step 4️⃣.
+
+
+# Justification
+
+In the original design, the Mood class has only Sad and Happy, and the Occasion class has only Birthday, Wedding and Party.
+
+Now I add Calm and Energetic into the Mood class, and I add Studying into the Occasion class. 
+
+By adding more choices into those classes, the song creator will have more choices and can create more meaningful song. 
