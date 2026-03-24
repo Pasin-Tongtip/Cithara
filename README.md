@@ -27,4 +27,4 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-5️⃣ go to [Link](http://127.0.0.1:8000/admin/)
+5️⃣ go to this [link](http://127.0.0.1:8000/admin/)
