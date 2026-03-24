@@ -5,3 +5,5 @@ mysite/__pycache__/
 cithara/__pycache__/
 
 cithara/migrations/__pycache__/
+
+cithara/models/__pycache__/
