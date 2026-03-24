@@ -1,6 +1,12 @@
 # Set up instruction
 
-1️⃣ Go to your terminal and cd into your repository.
+1️⃣ First, you need to install Django.
+
+```
+python -m pip install Django
+```
+
+2️⃣ Go to your terminal and cd into your repository.
 
 Then, run the command below.
 
@@ -8,12 +14,12 @@ Then, run the command below.
 git clone https://github.com/Pasin-Tongtip/Cithara.git
 ```
 
-2️⃣ cd into Cithara repository by running:
+3️⃣ cd into Cithara repository by running:
 
 ```
 cd Cithara
 ```
-3️⃣ create admin access
+4️⃣ create admin access
 
 ```
 python manage.py migrate
@@ -21,12 +27,12 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-4️⃣ run the server
+5️⃣ run the server
 
 ```
 python manage.py runserver
 ```
 
-5️⃣ go to this [link](http://127.0.0.1:8000/admin/)
+6️⃣ go to this [link](http://127.0.0.1:8000/admin/)
 
-6️⃣ login with the username and password you set in step 3️⃣.
+7️⃣ login with the username and password you set in step 4️⃣.
