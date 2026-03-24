@@ -1,11 +1,21 @@
 # Set up instruction
 
-Go to your terminal and cd into your repository.
+1️⃣ Go to your terminal and cd into your repository.
 
-Then, run the commands below.
+Then, run the command below.
 
 ```
 git clone https://github.com/Pasin-Tongtip/Cithara.git
+```
 
+2️⃣ cd into Cithara repository by running:
+
+```
+cd Cithara
+```
+
+3️⃣ run the server
+
+```
 python manage.py runserver
 ```
