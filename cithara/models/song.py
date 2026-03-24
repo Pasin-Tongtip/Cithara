@@ -1,6 +1,9 @@
 from django.db import models
-from .enumerations import Mood, Genre, VoiceType, Occasion
+from .genre import Genre
 from .library import Library
+from .mood import Mood
+from .occasion import Occasion
+from .voice_type import VoiceType
 
 
 class Song(models.Model):
