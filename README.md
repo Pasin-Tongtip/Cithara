@@ -28,3 +28,5 @@ python manage.py runserver
 ```
 
 5️⃣ go to this [link](http://127.0.0.1:8000/admin/)
+
+6️⃣ login with the username and password you set in step 3️⃣.
