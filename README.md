@@ -31,6 +31,30 @@ python manage.py runserver
 6️⃣ Login with your google account.
 
 
+# Adding the SUNO API
+
+1️⃣ Creates a file named .env at the root of the project:
+
+2️⃣ Add SUNO API in that file:
+```
+SUNO_API_KEY=your_actual_key_here
+```
+
+
+# Running In Mock Mode
+
+1️⃣ Set MOCK_MODE = True in your settings.py
+
+2️⃣ You can generate the song now 🫡
+
+
+# Running In SUNO Mode
+
+1️⃣ Ensure your SUNO API key is in the .env file
+
+2️⃣ You can generate the song now 🫡
+
+
 # Justification
 
 In the original design, the Mood class has only Sad and Happy, and the Occasion class has only Birthday, Wedding and Party.
