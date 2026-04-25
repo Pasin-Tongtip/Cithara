@@ -19,23 +19,16 @@ git clone https://github.com/Pasin-Tongtip/Cithara.git
 ```
 cd Cithara
 ```
-4️⃣ Create admin access
 
-```
-python manage.py migrate
-
-python manage.py createsuperuser
-```
-
-5️⃣ Run the server
+4️⃣ Run the server
 
 ```
 python manage.py runserver
 ```
 
-6️⃣ Go to this [link](http://127.0.0.1:8000/admin/)
+5️⃣ Go to this [link](http://127.0.0.1:8000/cithara/login/)
 
-7️⃣ Login with the username and password you set in step 4️⃣.
+6️⃣ Login with your google account.
 
 
 # Justification
