@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cithara - Login</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        body {
+            background-color: #fff1b1;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-box {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 350px;
+        }
+        h1 { color: #474f5b; margin-top: 0; font-size: 28px; }
+        p { color: #6c757d; margin-bottom: 30px; }
+        
+        .google-btn-container { 
+            display: flex; 
+            justify-content: center; 
+        }
+
+        /* Styling for the OR separator */
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #adb5bd;
+            margin: 25px 0;
+            font-size: 14px;
+        }
+        .separator::before,
+        .separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .separator:not(:empty)::before { margin-right: .5em; }
+        .separator:not(:empty)::after { margin-left: .5em; }
+
+        /* Styling for manual login */
+        .manual-login {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .manual-login input {
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .manual-login input:focus {
+            border-color: #edd269;
+        }
+        .manual-login button {
+            background-color: #edd269;
+            color: #474f5b;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .manual-login button:hover {
+            background-color: #d4a017;
+        }
+        .error-msg {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h1>Cithara</h1>
+        <br></br>
+
+        <form class="manual-login" method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <button type="submit">Continue with Email</button>
+        </form>
+
+        <div class="separator">OR</div>
+
+        {% if error %}
+            <div class="error-msg">{{ error }}</div>
+        {% endif %}
+
+        <div id="g_id_onload"
+             data-client_id="1088900671763-5r9derdbne2q2nvab6psh24go0tlljph.apps.googleusercontent.com"
+             data-context="signin"
+             data-ux_mode="popup"
+             data-callback="handleCredentialResponse"
+             data-auto_prompt="false">
+        </div>
+
+        <div class="google-btn-container">
+            <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left" data-width="270"></div>
+        </div>
+
+        <form id="google-login-form" method="POST" action="{% url 'login' %}" style="display: none;">
+            {% csrf_token %}
+            <input type="hidden" name="credential" id="credential">
+        </form>
+        
+    </div>
+
+    <script>
+        function handleCredentialResponse(response) {
+            document.getElementById('credential').value = response.credential;
+            document.getElementById('google-login-form').submit();
+        }
+    </script>
+</body>
+</html>

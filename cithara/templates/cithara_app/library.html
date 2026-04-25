@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cithara - My Library</title>
+    <style>
+        /* Theme Color Variables */
+        :root {
+            --bg-yellow: #fff1b1;
+            --primary-gold: #edd269;
+            --card-white: #f5f5f5;
+            --text-dark: #474f5b;
+            --sidebar-width: 250px;
+            --sidebar-collapsed-width: 70px;
+            --primary-blue: #007bff;
+            --primary-grey: #6c757d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-yellow);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- Sidebar Styles --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--card-white);
+            box-shadow: 2px 0 10px rgba(71, 79, 91, 0.1);
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            height: 30px;
+        }
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin: 0;
+            transition: opacity 0.2s;
+        }
+
+        .sidebar.collapsed .brand-name {
+            opacity: 0;
+            pointer-events: none;
+            display: none;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+        }
+
+        .toggle-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 20px 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 24px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s;
+            gap: 15px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: var(--primary-gold);
+        }
+
+        .nav-icon {
+            min-width: 24px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-text {
+            transition: opacity 0.2s;
+        }
+
+        .sidebar.collapsed .nav-text {
+            opacity: 0;
+            display: none;
+        }
+
+        .logout-container {
+            margin-top: auto;
+            margin-bottom: 20px;
+        }
+
+        /* --- Main Content Styles --- */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            font-size: 28px;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+
+        .empty-state {
+            text-align: center;
+            margin-top: 15vh;
+            font-size: 22px;
+            font-weight: 500;
+        }
+
+        .empty-state a {
+            color: #d4a017;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+
+        .empty-state a:hover {
+            color: #b58812;
+            text-decoration: underline;
+        }
+
+        .song-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* --- Song Card Styles --- */
+        .song-card {
+            background-color: var(--card-white);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(71, 79, 91, 0.05);
+            transition: transform 0.2s;
+            overflow: hidden;
+        }
+
+        .song-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(71, 79, 91, 0.1);
+        }
+
+        /* --- Card Header section --- */
+        .song-card-header {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Toggle Arrow styling */
+        .toggle-arrow {
+            font-size: 14px;
+            color: #6c757d;
+            transition: transform 0.3s ease;
+            margin-right: 15px;
+            display: inline-block;
+        }
+
+        /* Rotated state for the arrow */
+        .collapsed .toggle-arrow {
+            transform: rotate(0deg);
+        }
+        .expanded .toggle-arrow {
+            transform: rotate(90deg);
+        }
+
+        /* Unicode for the arrows */
+        .toggle-arrow::before {
+            content: "\25BA"; /* Right-pointing triangle */
+        }
+
+        .song-name-group {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .song-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .song-info-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .song-duration {
+            font-size: 15px;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .btn-edit {
+            background-color: var(--primary-gold);
+            color: var(--text-dark);
+        }
+
+        .btn-delete {
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        /* --- Expanded Panel section --- */
+        .song-card-expanded-panel {
+            padding: 0 25px 25px 25px;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            gap: 20px;
+            border-top: 1px solid #eee;
+            margin-top: 0px;
+        }
+
+        /* Visual indicator for expanded state */
+        .expanded .song-card-expanded-panel {
+            display: flex;
+        }
+
+        /* Container for the Left side and Right side */
+        .expanded-content {
+            display: flex;
+            flex-direction: row; 
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px; 
+            flex-wrap: wrap; 
+        }
+
+        /* --- Left side --- */
+        .audio-player {
+            width: 100%;
+            height: 54px;
+            border-radius: 8px;
+            outline: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+        }
+
+        .expanded-left {
+            flex: 2; 
+            min-width: 300px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* --- Right side --- */
+        .expanded-right {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            gap: 15px;
+            min-width: 250px;
+            align-items: center;
+        }
+
+        /* Stylings for the three new buttons in expanded panel */
+        .btn-expanded {
+            height: 54px;
+            padding: 0 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-grow: 1; 
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        /* Download button color */
+        .btn-download {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+        .btn-download:hover {
+            background-color: #0069d9;
+        }
+
+        /* Share button color */
+        .btn-share {
+            background-color: white;
+            color: var(--text-dark);
+            border: 1px solid var(--primary-grey);
+        }
+        .btn-share:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Icon styling for expanded buttons */
+        .expanded-icon {
+            margin-right: 8px;
+        }
+
+        /* --- Modal Styles --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(71, 79, 91, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-box {
+            background-color: var(--card-white);
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal-box h3 {
+            margin-top: 0;
+            font-size: 22px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn-cancel {
+            background-color: #e2e2e2;
+            color: var(--text-dark);
+        }
+
+        .btn-confirm {
+            background-color: #ff6b6b; /* Red to signify logging out */
+            color: white;
+        }
+
+        /* --- Progress Bar Animation --- */
+        .generating-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 10px 0;
+            gap: 10px;
+        }
+
+        .generating-text {
+            font-weight: bold;
+            color: #6c757d;
+            animation: pulse 1.5s infinite;
+        }
+
+        .progress-track {
+            width: 80%;
+            height: 12px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 100%;
+            background-color: var(--primary-gold);
+            background-image: linear-gradient(45deg, rgba(255,255,255,.2) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.2) 50%, rgba(255,255,255,.2) 75%, transparent 75%, transparent);
+            background-size: 1rem 1rem;
+            animation: progress-stripes 1s linear infinite;
+        }
+
+        @keyframes progress-stripes {
+            from { background-position: 1rem 0; }
+            to { background-position: 0 0; }
+        }
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 class="brand-name">Cithara</h2>
+            <button class="toggle-btn" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+                <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </button>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="{% url 'library' %}" class="nav-item active">
+                <span class="nav-icon">🎧</span>
+                <span class="nav-text">Library</span>
+            </a>
+            
+            <a href="{% url 'create_song' %}" class="nav-item">
+                <span class="nav-icon">✨</span>
+                <span class="nav-text">Create Song</span>
+            </a>
+        </nav>
+
+        <div class="logout-container">
+            <button onclick="openLogoutModal()" class="nav-item">
+                <span class="nav-icon">🚪</span>
+                <span class="nav-text">Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <h1 class="page-title">My Library</h1>
+
+        {% if songs %}
+            <div class="song-list">
+                {% for song in songs %}
+                <div class="song-card collapsed" id="song-{{ song.id }}" data-status="{{ song.suno_status }}" data-url="{% url 'check_song_status' song.id %}">
+                    
+                    <div class="song-card-header" onclick="toggleExpansion(this)">
+                        <div class="song-name-group">
+                            <span class="toggle-arrow"></span>
+                            <div class="song-name">
+                                {{ song.title }}
+                            </div>
+                        </div>
+                        <div class="song-info-group">
+                            <span class="song-duration">--:--</span> 
+                            <a href="{% url 'edit_song' song.id %}" class="btn btn-edit">Edit</a>
+                            <form method="POST" action="{% url 'delete_song' song.id %}" style="margin: 0;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-delete" onclick="event.stopPropagation(); return confirm('Are you sure you want to delete this song?');">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="song-card-expanded-panel">
+                        <div class="expanded-content">
+                        
+                            {% if song.suno_status == 'PENDING' %}
+                                <div class="generating-container">
+                                    <div class="generating-text">Generating your masterpiece...</div>
+                                    <div class="progress-track">
+                                        <div class="progress-fill"></div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="expanded-left">
+                                    <audio controls class="audio-player">
+                                        {% if song.audio_url %}
+                                            <source src="{{ song.audio_url }}" type="audio/mpeg">
+                                        {% endif %}
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </div>
+                                
+                                <div class="expanded-right">
+                                    {% if song.audio_url %}
+                                        <a href="{% url 'download_song' song.id 'mp3' %}" class="btn btn-download btn-expanded">
+                                            ⬇ MP3
+                                        </a>
+
+                                        <a href="{% url 'download_song' song.id 'm4a' %}" class="btn btn-download btn-expanded">
+                                            ⬇ M4A
+                                        </a>
+                                    {% endif %}
+                                    
+                                    <button data-url="{{ request.scheme }}://{{ request.get_host }}{% url 'share_song' song.id %}" onclick="copyShareLink(this.dataset.url)" class="btn btn-share btn-expanded">
+                                        🔗 Share
+                                    </button>
+                                </div>
+                            {% endif %}
+                            
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>No song in library right now,</p>
+                <p>Let's go <a href="{% url 'create_song' %}">create one!</a></p>
+            </div>
+        {% endif %}
+    </main>
+
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal-box">
+            <h3>Ready to leave?</h3>
+            <p>Are you sure you want to log out of Cithara?</p>
+            
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="closeLogoutModal()">Cancel</button>
+                
+                <form method="POST" action="{% url 'logout' %}" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-confirm">Yes, Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        // Modal Functions
+        const logoutModal = document.getElementById('logoutModal');
+
+        function openLogoutModal() {
+            logoutModal.style.display = 'flex';
+        }
+
+        function closeLogoutModal() {
+            logoutModal.style.display = 'none';
+        }
+
+        // Close modal if user clicks outside the white box
+        window.onclick = function(event) {
+            if (event.target == logoutModal) {
+                closeLogoutModal();
+            }
+        }
+
+        function toggleExpansion(header) {
+            const card = header.parentElement;
+            card.classList.toggle('collapsed');
+            card.classList.toggle('expanded');
+        }
+
+        function copyShareLink(url) {
+            navigator.clipboard.writeText(url).then(function() {
+                alert('Share link copied to clipboard! You can now paste it to your friends.');
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
+        // --- Polling Logic for Song Generation ---
+        document.addEventListener("DOMContentLoaded", function() {
+            const pendingCards = document.querySelectorAll('.song-card[data-status="PENDING"]');
+            
+            if (pendingCards.length > 0) {
+                pendingCards.forEach(card => {
+                    card.classList.remove('collapsed');
+                    card.classList.add('expanded');
+                });
+
+                // If there are pending songs, check the server every 5 seconds
+                const pollInterval = setInterval(() => {
+                    let allDone = true;
+                    
+                    pendingCards.forEach(card => {
+                        // If it's still pending in the DOM, check it
+                        if (card.dataset.status === 'PENDING') {
+                            allDone = false;
+                            const pollUrl = card.dataset.url; 
+                            
+                            fetch(pollUrl)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.status === 'SUCCESS' || data.status === 'FIRST_SUCCESS') {
+                                        // The AI is finished. Reload the page to reveal the audio player
+                                        window.location.reload();
+                                    } else if (data.status === 'FAILED') {
+                                        alert("Song generation failed. Please try again.");
+                                        window.location.reload();
+                                    }
+                                })
+                                .catch(err => console.error("Polling error:", err));
+                        }
+                    });
+
+                    // Stop polling if everything is finished
+                    if (allDone) {
+                        clearInterval(pollInterval);
+                    }
+                }, 5000); // 5000 milliseconds = 5 seconds
+            }
+
+            const audioPlayers = document.querySelectorAll('.audio-player');
+            
+            function updateDurationText(player) {
+                // Ensure duration is a valid number
+                if (player.duration && !isNaN(player.duration) && player.duration !== Infinity) {
+                    // Calculate minutes and seconds
+                    const minutes = Math.floor(player.duration / 60);
+                    const seconds = Math.floor(player.duration % 60);
+                    
+                    // Add a leading zero if seconds are under 10
+                    const formattedDuration = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+                    
+                    // Find the specific duration span for this song and update it
+                    const card = player.closest('.song-card');
+                    if (card) {
+                        const durationSpan = card.querySelector('.song-duration');
+                        if (durationSpan) {
+                            durationSpan.innerText = formattedDuration;
+                        }
+                    }
+                }
+            }
+
+            audioPlayers.forEach(player => {
+                if (player.readyState >= 1) {
+                    updateDurationText(player);
+                } 
+                player.addEventListener('loadedmetadata', function() {
+                    updateDurationText(this);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

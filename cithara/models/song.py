@@ -15,6 +15,9 @@ class Song(models.Model):
     voice_type = models.CharField(max_length=20, choices=VoiceType.choices)
     occasion = models.CharField(max_length=20, choices=Occasion.choices)
     created = models.DateTimeField(auto_now_add=True)
+    suno_task_id = models.CharField(max_length=255, blank=True, null=True)
+    suno_status = models.CharField(max_length=50, default='PENDING')
+    audio_url = models.URLField(max_length=1000, blank=True, null=True)
 
     def __str__(self):
         return f"{self.title} by {self.library.owner.name}"

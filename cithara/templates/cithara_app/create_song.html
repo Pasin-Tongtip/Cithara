@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create a Song</title>
+    <style>
+        body { background-color: #fff1b1; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; padding: 40px; }
+        .form-box { background-color: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
+        h1 { color: #474f5b; margin-top: 0; text-align: center;}
+        .form-group { margin-bottom: 20px; display: flex; flex-direction: column; }
+        label { font-weight: bold; margin-bottom: 5px; color: #474f5b; }
+        input, select, textarea { padding: 10px; border: 1px solid #ced4da; border-radius: 6px; font-size: 15px; width: 100%; box-sizing: border-box; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #edd269; }
+        
+        .btn-container { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+            margin-top: 30px; 
+        }
+        
+        .submit-btn, .cancel-btn { 
+            width: 100%;
+            padding: 12px; 
+            border-radius: 6px; 
+            font-weight: bold; 
+            font-size: 16px; 
+            cursor: pointer; 
+            text-align: center;
+            text-decoration: none;
+            box-sizing: border-box;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .submit-btn { 
+            background-color: #edd269; 
+            color: #474f5b; 
+        }
+        .submit-btn:hover { 
+            background-color: #d4a017; 
+        }
+        
+        .cancel-btn { 
+            background-color: #f8f9fa; 
+            color: #474f5b; 
+            border: 1px solid #ced4da; 
+        }
+        .cancel-btn:hover { 
+            background-color: #e2e6ea; 
+        }
+    </style>
+</head>
+<body>
+    <div class="form-box">
+        <h1>Create Your Song</h1>
+        <form method="POST" action="{% url 'create_song' %}">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="occasion">Occasion:</label>
+                <select id="occasion" name="occasion" class="form-control" required>
+                    <option value="" disabled selected>Select an occasion...</option>
+                    
+                    {% for value, label in occasion_choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="genre">Genre:</label>
+                <select id="genre" name="genre" class="form-control" required>
+                    <option value="" disabled selected>Select a genre...</option>
+                    {% for value, label in genre_choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="voice_type">Voice Type:</label>
+                <select id="voice_type" name="voice_type" class="form-control" required>
+                    <option value="" disabled selected>Select a voice type...</option>
+                    {% for value, label in voice_type_choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="mood">Mood:</label>
+                <select id="mood" name="mood" class="form-control" required>
+                    <option value="" disabled selected>Select a mood...</option>
+                    {% for value, label in mood_choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="story">Additional Details / Prompt:</label>
+                <textarea id="story" name="story" class="form-control" rows="5" required></textarea>
+            </div>
+
+            <div class="btn-container">
+                <button type="submit" class="submit-btn">Review Song Details</button>
+                <a href="{% url 'library' %}" class="cancel-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

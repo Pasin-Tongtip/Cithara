@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Song Shared With You</title>
+    <style>
+        body { background-color: #fff1b1; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; padding: 40px; }
+        .review-box { background-color: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
+        h1 { color: #474f5b; margin-top: 0; text-align: center;}
+        .detail-row { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .label { font-weight: bold; color: #6c757d; font-size: 14px; text-transform: uppercase; }
+        .value { font-size: 18px; color: #474f5b; margin-top: 4px; }
+        
+        .btn-container { display: flex; gap: 15px; margin-top: 30px; }
+        
+        .submit-btn, .back-btn { 
+            flex: 1; 
+            padding: 12px; 
+            border-radius: 6px; 
+            font-weight: bold; 
+            font-size: 16px; 
+            cursor: pointer; 
+            text-align: center;
+            text-decoration: none;
+            box-sizing: border-box;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .submit-btn { 
+            background-color: #edd269; 
+            color: #474f5b; 
+        }
+        .submit-btn:hover { 
+            background-color: #d4a017; 
+        }
+        
+        .back-btn { 
+            background-color: #f8f9fa; 
+            color: #474f5b; 
+            border: 1px solid #ced4da; 
+        }
+        .back-btn:hover { 
+            background-color: #e2e6ea; 
+        }
+    </style>
+</head>
+<body>
+    <div class="review-box">
+        <h1>Review Details</h1>
+        
+        <div class="detail-row"><div class="label">Title</div><div class="value">{{ song.title }}</div></div>
+        <div class="detail-row"><div class="label">Occasion</div><div class="value">{{ song.occasion }}</div></div>
+        <div class="detail-row"><div class="label">Genre</div><div class="value">{{ song.genre }}</div></div>
+        <div class="detail-row"><div class="label">Voice Type</div><div class="value">{{ song.voice_type }}</div></div>
+        <div class="detail-row"><div class="label">Mood</div><div class="value">{{ song.mood }}</div></div>
+        <div class="detail-row" style="border:none;"><div class="label">Prompt Details</div><div class="value">{{ song.story }}</div></div>
+
+        <div class="form-actions" style="margin-top: 30px;">
+            <a href="{% url 'library' %}" class="submit-btn">Go to My Library</a>
+        </div>
+    </div>
+</body>
+</html>
