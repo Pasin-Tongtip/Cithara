@@ -47,7 +47,7 @@ python manage.py runserver
 
 # Running In Mock Mode
 
-1️⃣ Set USE_MOCK_GENERATOR = True in your settings.py
+1️⃣ Set USE_MOCK_GENERATOR = True in your settings.py (at line 126)
 
 2️⃣ You can generate the song now 🫡
 
@@ -56,7 +56,7 @@ python manage.py runserver
 
 1️⃣ Ensure your SUNO API key is in the .env file
 
-2️⃣ Set USE_MOCK_GENERATOR = False in your settings.py
+2️⃣ Set USE_MOCK_GENERATOR = False in your settings.py (at line 126)
 
 3️⃣ You can generate the song now 🫡
 
