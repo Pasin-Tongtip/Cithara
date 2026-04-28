@@ -1,6 +1,6 @@
 # Set up instruction
 
-1️⃣ First, you need to install Django.
+1️⃣ First, you need to install Django and the required libraries.
 
 ```
 python -m pip install Django
@@ -20,30 +20,34 @@ git clone https://github.com/Pasin-Tongtip/Cithara.git
 cd Cithara
 ```
 
-4️⃣ Run the server
+4️⃣ Create your environment file by create a file named .env at the root of the project:
+
+5️⃣ Add your API key:
+
+```
+SUNO_API_KEY=your_actual_key_here
+```
+
+6️⃣ Set up database by running:
+
+```
+python manage.py migrate
+```
+
+7️⃣ Run the server:
 
 ```
 python manage.py runserver
 ```
 
-5️⃣ Go to this [link](http://127.0.0.1:8000/cithara/login/)
+8️⃣ Go to this [link](http://127.0.0.1:8000/cithara/login/)
 
-6️⃣ Login with your google account.
-
-
-# Adding the SUNO API
-
-1️⃣ Creates a file named .env at the root of the project:
-
-2️⃣ Add SUNO API in that file:
-```
-SUNO_API_KEY=your_actual_key_here
-```
+9️⃣ Login with your google account.
 
 
 # Running In Mock Mode
 
-1️⃣ Set MOCK_MODE = True in your settings.py
+1️⃣ Set USE_MOCK_GENERATOR = True in your settings.py
 
 2️⃣ You can generate the song now 🫡
 
@@ -52,7 +56,9 @@ SUNO_API_KEY=your_actual_key_here
 
 1️⃣ Ensure your SUNO API key is in the .env file
 
-2️⃣ You can generate the song now 🫡
+2️⃣ Set USE_MOCK_GENERATOR = False in your settings.py
+
+3️⃣ You can generate the song now 🫡
 
 
 # Justification
