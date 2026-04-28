@@ -3,7 +3,7 @@
 1️⃣ First, you need to install Django and the required libraries.
 
 ```
-python -m pip install Django
+python -m pip install Django requests python-dotenv google-auth
 ```
 
 2️⃣ Go to your terminal and cd into your repository.
